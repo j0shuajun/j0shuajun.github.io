@@ -3,30 +3,27 @@ layout: page
 title: About
 ---
 
-관심이 생겨 공부하고 찾아본 것들을 기록하려고 합니다. 내 글을 보고 정보를 얻어가는 누군가가 생길 수 있게끔 노력해야지.
+<p class="message">
+  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
+</p>
 
-## About Me
+In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
 
-고려대학교에서 수학과 통계학을 전공하고 있습니다. ~~어렵다.~~
+There are currently two themes built on Poole:
 
-빅데이터 연합동아리 BOAZ에서 시각화 13기로 활동 중입니다.
+* [Hyde](http://hyde.getpoole.com)
+* [Lanyon](http://lanyon.getpoole.com)
 
-## Interests
+Learn more and contribute on [GitHub](https://github.com/poole).
 
-1. Data Science
+## Setup
 
-2. Data Visualization
+Some fun facts about the setup of this project include:
 
-3. Business Intelligence
+* Built for [Jekyll](https://jekyllrb.com)
+* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
+* Coded with [Atom](https://atom.io)
 
-4. Data Journalism
+Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
 
-5. Machine Learning / Deep Learning
-
-## My Skillsets
-
-1. Python
-
-2. R
-
-3. Tableau
+Thanks for reading!
