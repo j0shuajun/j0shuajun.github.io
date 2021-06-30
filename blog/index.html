@@ -22,6 +22,9 @@ title: Blog
     <article>
       {{ post.excerpt | truncatewords: 50, '...'}}
     <article>
+    <div class="post-more">
+      <a href="{{ site.baseurl }}{{ post.url }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
   </div>
   {% endfor %}
 </div>
