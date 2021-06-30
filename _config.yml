@@ -1,6 +1,6 @@
 # Site Info
-title: Myungjun Kim
-tagline: 'Statistics. Mathematics.'
+title: Records in June
+tagline: 'useful clutter'
 description: 'I Hope my works will help someone.'
 baseurl: ''
 url: http://j0shuajun.github.io
@@ -48,15 +48,15 @@ nav:
     - '/about/'
 
   #Github Project: 
-    #- 'http://codinfox.github.io/'
+    #- 'http://j0shuajun.github.io/'
 
 # Where are tags and categories displayed
 tag_page: '/blog/tags/'
 category_page: '/blog/categories/'
 
 hero:
-  image: /public/img/what_is_phd.png
-  caption: © <a href="https://matt.might.net/articles/phd-school-in-pictures/">Matt Might</a>
+  image: /public/img/main.png
+  caption: © Original Artwork <a href="https://www.instagram.com/p/CLUr3bNnqeD/?utm_medium=share_sheet">2soom_toon</a>
 
 
 # Puglins
