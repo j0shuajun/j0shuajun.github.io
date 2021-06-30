@@ -55,7 +55,7 @@ category_page: '/blog/categories/'
 
 hero:
   image: /public/img/what_is_phd.png
-  caption: &copy; <a href="https://matt.might.net/articles/phd-school-in-pictures/">Matt Might</a>
+  caption: © <a href="https://matt.might.net/articles/phd-school-in-pictures/">Matt Might</a>
 
 
 # Puglins
