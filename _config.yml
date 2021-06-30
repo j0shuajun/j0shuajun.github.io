@@ -4,7 +4,7 @@ tagline: 'Statistics. Mathematics.'
 description: 'I Hope my works will help someone.'
 baseurl: ''
 url: http://j0shuajun.github.io
-logo: ''
+logo: '/public/logo.png'
 
 # Site configurations
 gems:
