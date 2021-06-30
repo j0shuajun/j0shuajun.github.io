@@ -20,7 +20,7 @@ title: Blog
     {% endif %}
 
     <h4 style="font-weight: 400; line-height: 1.8;"><article>
-      {{ post.excerpt | truncatewords: 50, '...'}}
+      {{ post.excerpt | truncatewords: 100, '...'}}
     <article></h4>
     <div class="post-more">
       <a href="{{ site.baseurl }}{{ post.url }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
