@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'ㅁㄴㅇ'
+title: 'Git Workflow 정리'
 category : [Useful]
-tag: [Github]
+tag: [Git]
 ---
 
 VS code의 편의성 때문에 Atom을 더 이상 사용하지 않기로 했다. 에디터 내에서 터미널 접근이 가능해서 편리하다. 일 년 넘게 방치하다가 오랜만에 관리하려니까 기억이 나지 않아 고생했다. 또 방치할 수도 있으니 기록해두자.
