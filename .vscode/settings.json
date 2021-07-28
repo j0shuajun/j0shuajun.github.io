@@ -1,3 +1,4 @@
 {
-    "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true
+    "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
+    "editor.fontSize": 16
 }
