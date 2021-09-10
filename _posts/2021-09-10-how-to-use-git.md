@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Git Workflow 정리'
+title: 'How to use Git'
 category : [Useful]
 tag: [Git]
 ---
