@@ -19,6 +19,10 @@ title: Blog
     {% endfor %}
     {% endif %}
 
+    <div class="entry">
+      {{ post.excerpt }}
+    </div>
+    
     <div class="post-more">
       <a href="{{ site.baseurl }}{{ post.url }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
