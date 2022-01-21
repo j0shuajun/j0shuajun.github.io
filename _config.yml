@@ -42,7 +42,7 @@ nav:
     - '/'
   Blog:           
     - '/blog/'
-    - { Archive: '/blog/archive/' }
+    - { Categories: '/blog/categories/' }
     - { Tags: '/blog/tags/' }
   About:          
     - '/about/'
