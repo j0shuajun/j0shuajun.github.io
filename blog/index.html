@@ -6,7 +6,7 @@ title: Blog
 <div class="posts">
   {% for post in paginator.posts %}
   <div class="post">
-    <h1 class="post-title" style="font-size: large">
+    <h1 class="post-title" style="font-size: 10">
       <a href="{{ site.baseurl }}{{ post.url }}">
         {{ post.title }}
       </a>
@@ -32,20 +32,17 @@ title: Blog
 
 <div class="pagination">
   {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}/blog/">Previous</a>
-    {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}/blog/page{{paginator.previous_page}}">Previous</a>
-    {% endif %}
-  {% else %}
-    <span class="pagination-item newer">Previous</span>
+    <span class="prev">
+      <a href="{{ site.baseurl }}{{ paginator.previous_page_path }}" class="prev">
+        &#xE000; Previous
+      </a>
+    </span>
   {% endif %}
-
   {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}/blog/page{{paginator.next_page}}">Next</a>
-  {% else %}
-    <span class="pagination-item older">Next</span>
+    <span class="next">
+      <a href="{{ site.baseurl}}{{ paginator.next_page_path }}" class="next">
+        Next &#xE001;
+      </a>
+    </span>
   {% endif %}
-  
-
 </div>
