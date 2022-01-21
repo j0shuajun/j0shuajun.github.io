@@ -35,6 +35,10 @@
  * Update the foundational and global aspects of the page.
  */
 
+ @import "reset";
+ @import "open-color";
+ @import "variables";
+
 * {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
