@@ -20,7 +20,7 @@ tag: [Paper Review]
 통계학에서는 이러한 문제에 대한 해결책으로 수많은 변수 가운데 특정 변수만을 취하는 **변수 선택 (Variable Selection)**을 수행한다. 여러 가지 변수 선택 방법을 간단히 짚어보도록 하자. 모든 설명과 예시는 논문에 따라 regression setting 에서 설명하도록 하겠다.
 
 
-## Best Subset Selection
+# Best Subset Selection
 
 가장 단순한 방법은 **Best Subset Selection** 이다. $p$개의 변수가 있다고 했을 때, 모든 변수를 넣었다 빼보면서 $2^p$개의 모델 중 가장 작은 오차를 가지는 모델을 선택하는 방법이다. 예를 들어, 2개의 변수 $X_1, X_2$가 있다면 아래와 같이 총 $4 = 2^2$가지의 모델을 비교한다.
 
@@ -40,9 +40,10 @@ $$\underset{\beta \in \mathbb{R}^p}{\text{minimize}} ~ \Vert Y - X \beta \Vert_2
 Best subset selection을 계산 가능한 영역으로 가져오려는 시도는 지속적으로 있었다. Bertsimas, King, Mazumder는 2016년 Mixed Integer Optimization (MIO) 방법을 적용한 계산 방법을 제안하였다. 저자들은 해당 방법을 통해 $n$이 천 단위, $p$가 백 단위 혹은 $n$이 백 단위, $p$가 천 단위일 때의 해를 찾았다고 한다.
 
 
-### MIO Formulations for the Best Subset Problem
+## MIO Formulations for the Best Subset Problem
 
 Best subset selection 문제를 다음과 같이 제약조건 하에서의 최적화 형태 (constrained form) 로 바꿔쓸 수 있고,
+
 $$
 \begin{align*}
     \underset{\beta}{\text{minimize}} &\quad \Vert Y - X \beta \Vert_2^2 \\
@@ -51,6 +52,7 @@ $$
 $$
 
 MIO를 적용하여 다시 기술하면, 다음과 같다.
+
 $$
 \begin{align*}
     \underset{\beta, \mathbf{z}}{\text{minimize}} &\quad \Vert Y - X \beta \Vert_2^2 \\
@@ -61,6 +63,7 @@ $$
 $$
 
 좀 더 효율적인 계산을 위해 problem-dependent한 상수 $M_U, M_{\ell}$을 추가하고, 목적함수를 다르게 표현하면 다음을 얻을 수 있다.
+
 $$
 \begin{align*}
     \underset{\beta, \mathbf{z}}{\text{minimize}} &\quad \frac{1}{2} \beta^T(X^TX)\beta - \langle X^TY, \beta \rangle + \frac{1}{2} \Vert Y \Vert_2^2 \\
@@ -74,12 +77,13 @@ $$
 위의 최적화 문제는 warmstart를 적용한 projected gradient 방법을 통해 해를 찾았으며, [Gurobi](https://www.gurobi.com)를 사용하였다.
 
 
-## Forward Stepwise Selection
+# Forward Stepwise Selection
 
 
-## The Lasso
+# The Lasso
 
 많이 알려진 **Lasso** 문제는 다음과 같이 표현할 수 있다.
+
 $$\underset{\beta \in \mathbb{R}^p}{\text{minimize}} \quad \frac{1}{2} \Vert Y - X \beta \Vert_2^2 + \lambda \Vert \beta \Vert_1, \quad \lambda \ge 0.$$
 
 Lasso 문제는 convex이다. 즉, 이는 $\ell_0$ norm을 사용한 best subset selection 문제를 $\ell_1$ norm을 사용하여 convex relaxation 한 것이라고 생각할 수도 있다.
@@ -87,7 +91,7 @@ Lasso 문제는 convex이다. 즉, 이는 $\ell_0$ norm을 사용한 best subset
 위 문제를 해결하기 위해 active set strategy와 screening rule을 적용한 pathwise coordinate descent 방법을 이용하였다. 이는 R 패키지 `glmnet` 에서 lasso의 해를 구하는 방법이다.
 
 
-### Pathwise Coordinate Descent
+## Pathwise Coordinate Descent
 
 초모수 $\lambda$를 통해 변수의 갯수를 조절할 수 있다. $\lambda$가 커지면 $\lambda \Vert \beta \Vert_1$의 값이 커지므로 $\Vert \beta \Vert_1$ 값이 작아지도록 해를 찾게 되며, 결국 선택되는 변수의 수가 줄어든다. $\lambda \to \infty$라면 가해진 제약이 너무 강해서 모든 변수가 선택되지 않게 된다. 반대로 $\lambda$가 작아지면 변수를 많이 선택하게 되며, 어느 순간부터는 제약이 없는 상태가 된다. 이 경우 OLS estimator와 동일한 해일 것이다.
 
@@ -105,7 +109,7 @@ Coordinate descent는 MM 알고리즘의 일종으로, 다른 좌표들은 고�
 </p>
 
 
-### Active Set Strategy
+## Active Set Strategy
 
 효율적으로 해를 찾기 위해 active set strategy를 사용한다. 이것은 모든 변수를 다 탐색하는 것이 아니라, active set에 포함된 변수만으로 해를 찾은 뒤 실제 해가 맞는지 확인하는 방법이다. $p$가 매우 클 경우, 모든 변수를 탐색하는 것보다 효율적일 것으로 기대된다. $k$번째 단계의 경우, 그 과정은 다음과 같다.
 
@@ -115,13 +119,17 @@ Coordinate descent는 MM 알고리즘의 일종으로, 다른 좌표들은 고�
 4. Active set $\mathcal{A}$에 속한 변수만으로 coordinate descent를 수행하고 해를 찾는다.
 5. 해가 KKT 조건을 만족하는지 확인하기 위해 다음을 확인한다.
 
-    * $|\langle x_j, Y - X \hat \beta(\lambda) \rangle| = \lambda \quad $ for all members of the active set,
-    * $|\langle x_j, Y - X \hat \beta(\lambda) \rangle| \le \lambda \quad $ for all variables not in the active set.
+    $$
+    \begin{align*}
+    |\langle x_j, Y - X \hat \beta(\lambda) \rangle| = \lambda &\quad \text{for all members of the active set,} \\
+    |\langle x_j, Y - X \hat \beta(\lambda) \rangle| \le \lambda &\quad \text{for all variables not in the active set.}
+    \end{align*}
+    $$
     
     만약 조건을 만족하지 않는 변수가 있다면, 그것을 $\mathcal{A}$에 추가하고 1~5번의 과정을 반복한다.
 
 
-### Screening Rule
+## Screening Rule
 
 Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 가정을 부여해서 변수를 걸러내는 과정이다. 구체적인 내용은 Tibshirani가 2012년에 저술한 [*Strong Rules for Discarding Predictors in Lasso-type Problems*](https://www.jstor.org/stable/41430939)을 참고하길 바란다.
 
