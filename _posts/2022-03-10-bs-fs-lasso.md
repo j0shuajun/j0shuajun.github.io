@@ -5,11 +5,11 @@ category : [Statistics]
 tag: [Paper Review]
 ---
 
-2020년 Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 저술한 [*Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Based on Extensive Comparisons*](https://projecteuclid.org/journals/statistical-science/volume-35/issue-4/Best-Subset-Forward-Stepwise-or-Lasso-Analysis-and-Recommendations-Based/10.1214/19-STS733.full)의 내용을 요약하고, 논문에서 수행한 시뮬레이션을 [Julia](https://julialang.org)를 통해 재현하였다.
+Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 2020년에 저술한 [*Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Based on Extensive Comparisons*](https://projecteuclid.org/journals/statistical-science/volume-35/issue-4/Best-Subset-Forward-Stepwise-or-Lasso-Analysis-and-Recommendations-Based/10.1214/19-STS733.full)의 내용을 요약하고, 논문에서 수행한 시뮬레이션을 [Julia](https://julialang.org)를 통해 재현하였다.
 
 <!-- more -->
 
-논문의 목적은 다양한 sparse regression setting에서 $\ell_0$ (best subset selection), $\ell_1$ (Lasso), forward selection 방법들의 상대적인 이점을 비교하는 것이다. 어떤 예측 알고리즘이 최고인가 혹은 어떤 변수 선택 방법이 가장 좋은지에 대한 논문이 아님을 미리 말해두겠다. 이 글의 목적은 논문의 방법들을 자세히 살펴보는 것이 아닌, 시뮬레이션 재현 결과를 제시하고 해석하는 것이다.
+논문의 목적은 다양한 sparse regression setting에서 $\ell_0$ (best subset selection), $\ell_1$ (Lasso), forward selection 방법들의 상대적인 이점을 비교하는 것이다. 어떤 예측 알고리즘이 최고인가 혹은 어떤 변수 선택 방법이 가장 좋은지에 대한 논문이 아님을 미리 말해두겠다. 이 글의 목적은 논문의 방법들을 간략히 살펴보고, 시뮬레이션 재현 결과를 확인한 후 해석하는 것이다.
 
 해당 논문은 Bertsimas, King, Mazumder가 2016년에 저술한 [Best Subset Selection via a Modern Optimization Lens](https://arxiv.org/pdf/1507.03133.pdf)의 후속 논문이므로 이 논문을 먼저 살펴볼 것을 권장한다.
 
