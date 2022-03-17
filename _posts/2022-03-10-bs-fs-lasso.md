@@ -76,9 +76,10 @@ $$
 
 위의 최적화 문제는 warmstart를 적용한 projected gradient 방법을 통해 해를 찾았으며, [Gurobi](https://www.gurobi.com)를 사용하였다.
 
+
 ## Implementation via Julia
 
-```Julia
+```julia
 function bs_one_k(
     X::AbstractMatrix{<:Number}, y::AbstractArray{<:Number}, k::Integer;
     opt = Convex.MOI.OptimizerWithAttributes(Gurobi.Optimizer, "TimeLimit" => 60, MOI.Silent() => true),
@@ -147,7 +148,6 @@ function bs_one_k(
     return vec(β.value)
 end
 ```
-
 
 
 # Forward Stepwise Selection
@@ -237,7 +237,7 @@ Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 
 
 Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구하는 것이 논문 구현에 사용된 코드이지만, 너무 길고 복잡해서 coordinate descent 부분만 보여주고자 한다. Coordinate descent를 이용하여 lasso 문제의 해를 구하는 과정을 Julia를 통해 작성한 코드이다.
 
-```Julia
+```julia
 # define soft-thresholding operator
 soft = (x, l) -> sign.(x) .* max.(abs.(x) .- l, 0)
 
