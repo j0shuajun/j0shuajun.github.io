@@ -141,7 +141,11 @@ $$
 \end{align*}
 $$
 
-1. 초기값 $\hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T$와 $\lambda = \lambda_{\max}$를 설정한다.
+1. 초기값을
+
+    $$\hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T, \lambda = \lambda_{\max}$$
+
+    로 설정한다.
 2. $\hat \beta^{(0)}$에서 $\hat \beta^{(0)}_1$을 제외한 모든 값은 고정하고, $\hat \beta^{(1)}_1$를 계산한다. 즉, $\hat \beta^{(0)} = (\hat \beta^{(1)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T$.
 3. $j = 2, \dots, p$ 에 대해서 같은 작업을 반복한다. 모든 $j$에 대해 한 번 씩 업데이트 했다면 $\hat \beta^{(1)} = (\hat \beta^{(1)}_1, \hat \beta^{(1)}_2, \dots, \hat \beta^{(1)}_p)^T$를 구한 것이고, 1 iteration이 수행된 것으로 간주한다.
 4. 목적함수가 수렴할 때까지 1~3번의 과정을 반복한다.
