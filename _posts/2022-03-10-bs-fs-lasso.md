@@ -79,75 +79,7 @@ $$
 
 ## Implementation via Julia
 
-```julia
-function bs_one_k(
-    X::AbstractMatrix{<:Number}, y::AbstractArray{<:Number}, k::Integer;
-    opt = Convex.MOI.OptimizerWithAttributes(Gurobi.Optimizer, "TimeLimit" => 60, MOI.Silent() => true),
-    L = eigmax(transpose(X)*X), initial = zeros(size(X,2)),  nruns = 50, polish = true, tol = 1e-4, maxiter = 1e+3, verbose = false)
-
-    n, p = size(X)
-    
-    if k == 0 
-        return zeros(p)
-    end
-
-    # warmstart derived by projected gradient method
-    β_best = bs_proj_gd(X, y, k; L = L, initial = initial, nruns = nruns, polish = polish, tol = tol, maxiter = maxiter, verbose = verbose)
-    z0 = Float64.(β_best .!= 0)
-
-    # used as the upper bound of β̂ inf norm
-    M = 2 * norm(β_best, Inf)
-
-    if verbose
-        println("(b) . Running Gurobi's mixed integer program solver...")
-    end
-
-    if n >= p
-        # Optimization problem (2.5) in the paper
-        β = Variable(p)
-        z = Variable(p, BinVar)
-
-        problem = minimize(0.5 * sumsquares(X * β) - dot(transpose(X) * y, β))
-        problem.constraints += abs(β) ≤ M * z  # This implies SOS-1 condition and inf norm boundedness of β̂
-        problem.constraints += sum(z) ≤ k
-
-        # warm start is used
-        set_value!(β, β_best)
-        set_value!(z, z0)
-    else
-        # Optimization problem (2.6) in the paper
-        β = Variable(p)
-        z = Variable(p, BinVar)
-        ξ = Variable(n)
-
-        problem = minimize(0.5 * sumsquares(ξ) - dot(transpose(X)*y, β) )
-        problem.constraints += ξ == X * β
-        problem.constraints += abs(β) ≤ M * z
-        problem.constraints += sum(z) ≤ k
-
-        sortedX = sort(abs.(X), dims = 2, rev = true)
-        ξbound = mapslices(sum, sortedX[:, 1:k], dims = 2)  # The sum of the top k abs vals for each row of X
-        problem.constraints += abs(ξ) ≤ M * ξbound  # This constraint is mentioned at (2.13) in the paper
-
-        # warm start is used
-        set_value!(β , β_best)
-        set_value!(z, z0)
-        set_value!(ξ, X * β_best)
-    end
-    
-    solve!(problem, opt)
-
-    if verbose
-        println(problem.status)
-    end
-
-    if β.value == nothing
-        β.value = β_best
-    end
-
-    return vec(β.value)
-end
-```
+<script src="https://gist.github.com/j0shuajun/dc349931c68231aa31d571fc095e5b34.js"></script>
 
 
 # Forward Stepwise Selection
@@ -171,18 +103,26 @@ Lasso 문제는 convex이다. 즉, 이는 $\ell_0$ norm을 사용한 best subset
 Hyperparamter $\lambda$를 통해 변수의 개수를 조절할 수 있다. $\lambda$가 커지면 $\lambda \Vert \beta \Vert_1$의 값이 커지므로 $\Vert \beta \Vert_1$ 값이 작아지도록 해를 찾게 되며, 결국 선택되는 변수의 수가 줄어든다 (shrinkage). $\lambda \to \infty$라면 가해진 제약이 너무 강해서 모든 변수가 선택되지 않게 된다. 반대로 $\lambda$가 작아지면 변수를 많이 선택하게 되며, 어느 순간부터는 제약이 없는 상태가 된다. 이 경우 OLS estimator와 동일한 해일 것이다.
 
 Pathwise 방법은 모든 변수가 선택되지 않도록 충분히 큰 $\lambda$를 선택하면서 시작한다. 이 값은
+
 $$\lambda_{\max} = \Vert X^T Y \Vert_{\infty}$$
+
 이며, 이유는 간단하다. 위의 목적함수를 최소화하는 해 $\hat \beta$는 다음의 subgradient condition을 만족해야 하기 때문이다. (페널티 항이 미분불가능하므로 subgradient condition 만족하는지 확인하는 것)
+
 $$\mathbf{x}_j^T(Y - X \hat \beta)+ \lambda s_j = 0, \quad j = 1, \dots, p.$$
 $x_j$는 $X$의 $j$번째 열을 나타내며, subgradient $s_j$는 다음과 같다.
-$$s_j =
+
+$$
+s_j =
 \begin{cases}
 \text{sign}(\hat \beta_j) & ,\hat \beta \neq 0 \\
 s \in [-1, 1] &, \hat \beta = 0
-\end{cases}$$
+\end{cases}
+$$
 
 $\lambda_{\max}$를 선택했다면 $\lambda_{\max}$부터 $\epsilon \lambda_{\max}$까지 log scale로 $K = 100$개의 $\lambda$값을 택한다.
+
 $$\lambda_{\max} = \Vert X^T Y \Vert_{\infty} > \cdots > \lambda_{\min} = \epsilon \lambda_{\max}$$
+
 모든 계수가 0이 되는 $\lambda = \lambda_{\max}$에서 시작하여 $\lambda$값을 조금씩 줄여나간다. 앞서 설명했듯이, 값을 줄이면 변수가 추가로 선택되게 된다. 이때 $k + 1$번째 해 $\hat \beta (\lambda_{k+1})$을 구하기 위해 초기값으로 $k$번째 해 $\hat \beta (\lambda_k)$를 사용한다. 이전 단계의 해를 이용하여 효율적으로 초기화를 진행하는 것이다.
 
 Coordinate descent는 MM 알고리즘의 일종으로, 다른 좌표들은 고정하고 차례대로 하나의 좌표씩 업데이트하는 방법이다. 간단한 2차원의 경우, 아래 그림과 같다. $x$축 방향으로 업데이트한 후, $x$값을 고정하고 $y$축 방향으로 업데이트하면서 최소 (혹은 최대)가 되는 지점을 찾는다.
@@ -237,53 +177,7 @@ Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 
 
 Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구하는 것이 논문 구현에 사용된 코드이지만, 너무 길고 복잡해서 coordinate descent 부분만 보여주고자 한다. Coordinate descent를 이용하여 lasso 문제의 해를 구하는 과정을 Julia를 통해 작성한 코드이다.
 
-```julia
-# define soft-thresholding operator
-soft = (x, l) -> sign.(x) .* max.(abs.(x) .- l, 0)
-
-# define coordinate descent function
-coord = function(X::AbstractMatrix{<:Number}, y::AbstractArray{<:Number}; λ = 5, tol = 1e-6, max_iter = 1000)
-    γ = 1 / eigmax(X' * X)
-    β_coord = zeros(size(X, 2))  # initialization
-    coord_val = zeros(max_iter)
-
-    for i in 1:max_iter
-        # the main part of coordinate descent
-        for j in 1:size(X_train, 2)
-            Xdrop = X_train[:, 1:end .!= j]  # define X_{-j}
-            Xj = X_train[:, j]  # define X_j
-
-            βj_tmp = Xj' * (y_train - Xdrop * β_coord[1:end .!= j]) / (Xj' * Xj)
-            β_coord[j] = soft(βj_tmp, λ / norm(Xj)^2) # update the i-th coordinate using the soft-thresholding operator
-        end
-    
-        # record the objective value
-        coord_val[i] = 0.5 * norm(y_train - X_train * β_coord)^2 + λ * norm(β_coord, 1)
-
-            # stop condition
-        if i == 1
-            if abs(coord_val[i]) < tol
-                coord_val = coord_val[1:i]
-                println("The objective function converged after $i iterations.")
-                break
-            end
-        elseif abs(coord_val[i] - coord_val[i - 1]) < tol
-            coord_val = coord_val[1:i]
-            println("The objective function converged after $i iterations.")
-            break
-        end
-           
-        if i == max_iter
-            println("The objective function fails to converge. The solution is inaccurate.")
-        end
-        
-        # 1 iteration = a whole sweep of coordinate descent steps
-        i += 1
-    end
-
-    return β_coord, coord_val
-end
-```
+<script src="https://gist.github.com/j0shuajun/b73c0c3da209a89cd35ea620a91e1265.js"></script>
 
 
 ## The Relaxed Lasso
