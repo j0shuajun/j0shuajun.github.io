@@ -22,7 +22,7 @@ Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 2020년에 저술한 [*Best
 
 # Best Subset Selection
 
-가장 단순한 방법은 **best subset selection** 이다. $p$개의 변수가 있다고 했을 때, 모든 변수를 넣었다 빼보면서 $2^p$개의 모델 중 가장 작은 오차를 가지는 모델을 선택하는 방법이다. 예를 들어, 2개의 변수 $X_1, X_2$가 있다면 아래와 같이 총 $4 = 2^2$가지의 모델을 비교한다.
+가장 단순한 방법은 **best subset selection**이다. $p$개의 변수가 있다고 했을 때, 모든 변수를 넣었다 빼보면서 $2^p$개의 모델 중 가장 작은 오차를 가지는 모델을 선택하는 방법이다. 예를 들어, 2개의 변수 $X_1, X_2$가 있다면 아래와 같이 총 $4 = 2^2$가지의 모델을 비교한다.
 
 * Model 1: $Y = \beta_0 + \epsilon$
 * Model 2: $Y = \beta_0 + \beta_1 X_1 + \epsilon$
