@@ -4,7 +4,6 @@ title: 'Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Bas
 category : [Statistics]
 tag: [Paper Review]
 ---
-
 Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 2020년에 저술한 [*Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Based on Extensive Comparisons*](https://projecteuclid.org/journals/statistical-science/volume-35/issue-4/Best-Subset-Forward-Stepwise-or-Lasso-Analysis-and-Recommendations-Based/10.1214/19-STS733.full)의 내용을 요약하고, 논문에서 수행한 시뮬레이션을 [Julia](https://julialang.org)를 통해 재현하였다.
 
 <!-- more -->
@@ -144,8 +143,9 @@ $$
 1. 초기값을
 
     $$
-    \hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T \quad \text{and} \quad \lambda = \lambda_{\max}$$
-    
+    \hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T \quad \text{and} \quad \lambda = \lambda_{\max}
+    $$
+
     로 설정한다.
 2. $\hat \beta^{(0)}$에서 $\hat \beta^{(0)}_1$을 제외한 모든 값은 고정하고, $\hat \beta^{(1)}_1$를 계산한다. 즉, $\hat \beta^{(0)} = (\hat \beta^{(1)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T$로 업데이트 하는 것.
 3. $j = 2, \dots, p$ 에 대해서 같은 작업을 반복한다. 모든 $j$에 대해 한 번 씩 업데이트 했다면 $\hat \beta^{(1)} = (\hat \beta^{(1)}_1, \hat \beta^{(1)}_2, \dots, \hat \beta^{(1)}_p)^T$를 구한 것이고, 1 iteration이 수행된 것으로 간주한다.
