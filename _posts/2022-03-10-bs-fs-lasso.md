@@ -83,7 +83,7 @@ $$
 
 # Forward Stepwise Selection
 
-작성 예정
+작성 예정.
 
 
 # The Lasso
@@ -187,4 +187,4 @@ Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구�
 
 ## The Relaxed Lasso
 
-작성 예정
+작성 예정.
