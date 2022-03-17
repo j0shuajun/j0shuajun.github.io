@@ -4,7 +4,6 @@ title: 'Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Bas
 category : [Statistics]
 tag: [Paper Review]
 ---
-test
 Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 2020년에 저술한 [*Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Based on Extensive Comparisons*](https://projecteuclid.org/journals/statistical-science/volume-35/issue-4/Best-Subset-Forward-Stepwise-or-Lasso-Analysis-and-Recommendations-Based/10.1214/19-STS733.full)의 내용을 요약하고, 논문에서 수행한 시뮬레이션을 [Julia](https://julialang.org)를 통해 재현하였다.
 
 <!-- more -->
