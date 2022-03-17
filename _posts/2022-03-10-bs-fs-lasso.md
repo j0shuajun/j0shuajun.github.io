@@ -79,7 +79,7 @@ $$
 
 ## Implementation via Julia
 
-<script src="https://gist.github.com/j0shuajun/dc349931c68231aa31d571fc095e5b34.js"></script>
+{% gist dc349931c68231aa31d571fc095e5b34 bs_partial.jl %}
 
 
 # Forward Stepwise Selection
@@ -177,7 +177,7 @@ Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 
 
 Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구하는 것이 논문 구현에 사용된 코드이지만, 너무 길고 복잡해서 coordinate descent 부분만 보여주고자 한다. Coordinate descent를 이용하여 lasso 문제의 해를 구하는 과정을 Julia를 통해 작성한 코드이다.
 
-<script src="https://gist.github.com/j0shuajun/b73c0c3da209a89cd35ea620a91e1265.js"></script>
+{% gist b73c0c3da209a89cd35ea620a91e1265 coord_descent.jl %}
 
 
 ## The Relaxed Lasso
