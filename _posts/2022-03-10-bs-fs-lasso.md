@@ -143,7 +143,9 @@ $$
 
 1. 초기값을
 
-    $$\hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T, \lambda = \lambda_{\max}$$
+    $$
+    \hat \beta^{(0)} = (\hat \beta^{(0)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T \quad \text{and} \quad \lambda = \lambda_{\max}
+    $$
 
     로 설정한다.
 2. $\hat \beta^{(0)}$에서 $\hat \beta^{(0)}_1$을 제외한 모든 값은 고정하고, $\hat \beta^{(1)}_1$를 계산한다. 즉, $\hat \beta^{(0)} = (\hat \beta^{(1)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T$.
