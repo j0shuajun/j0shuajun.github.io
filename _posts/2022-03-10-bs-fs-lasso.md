@@ -150,7 +150,7 @@ $$
 2. $\hat \beta^{(0)}$에서 $\hat \beta^{(0)}_1$을 제외한 모든 값은 고정하고, $\hat \beta^{(1)}_1$를 계산한다. 즉, $\hat \beta^{(0)} = (\hat \beta^{(1)}_1, \hat \beta^{(0)}_2, \dots, \hat \beta^{(0)}_p)^T$로 업데이트 하는 것.
 3. $j = 2, \dots, p$ 에 대해서 같은 작업을 반복한다. 모든 $j$에 대해 한 번 씩 업데이트 했다면 $\hat \beta^{(1)} = (\hat \beta^{(1)}_1, \hat \beta^{(1)}_2, \dots, \hat \beta^{(1)}_p)^T$를 구한 것이고, 1 iteration이 수행된 것으로 간주한다.
 4. 목적함수가 수렴할 때까지 1~3번의 과정을 반복한다.
-5. $\hat \beta^{(1)}$를 그 다음 단계의 초기값으로 설정하고, $\lambda$는 $\lambda_{\max}$ 다음 값을 취한다. 모든 $\lambda$에 대하여 1~4번의 과정을 반복하여 solution path를 얻는다.
+5. $\hat \beta^{(1)}$을 다음 단계의 초기값으로 설정하고, $\lambda$는 $\lambda_{\max}$ 다음 값을 취한다. 모든 $\lambda$에 대하여 1~4번의 과정을 반복하여 solution path를 얻는다.
 
 
 ## Active Set Strategy
