@@ -85,14 +85,14 @@ $$
 
 모든 가능한 모델을 탐색하는 best subset selection에 비해 덜 ambitious한 방법이 **forward stepwise selection**이다. Best subset selection이 computationally infeasible하기 때문에 제시된 대안이라고 생각할 수도 있다. 과정은 다음과 같다.
 
-1. 아무 변수도 포함되지 않은 empty model에서 시작한다. 즉, $\mathcal{A}_0 = \\{ 0 \\}$. (0은 절편항을 의미한다.)
+1. 아무 변수도 포함되지 않은 empty model에서 시작한다. 즉, $A_0 = \\{ 0 \\}$. (0은 절편항을 의미한다.)
 2. $k = 1, \dots, \min \\{ n, p \\}$번째 단계마다 가장 적합한 변수를 하나씩 추가한다. 
 
-    $$j_k = \underset{j \notin \mathcal{A}_{k-1}}{\text{argmin}} ~\Vert Y - P_{\mathcal{A}_{k-1} \cup \{ j_k \}} Y \Vert_2^2 \quad \text{and} \quad \mathcal{A}_k = \mathcal{A}_{k-1} \cup \{ j_k \}$$
+    $$j_k = \underset{j \notin A_{k-1}}{\text{argmin}} ~\Vert Y - P_{A_{k-1} \cup \{ j_k \}} Y \Vert_2^2 \quad \text{and} \quad A_k = A_{k-1} \cup \{ j_k \}$$
 
     여기서 적합하다는 것은 변수를 추가하였을 때 반응변수 $Y$와 상관관계가 가장 높은 것을 의미한다.
 
-Active submatrix $X_{\mathcal{A}_{k-1}}$의 QR 분해를 사용하여 변수를 추가하는데, $\mathcal{A}_{k-1}$에 아직 포함되지 않은 변수와 $X_{\mathcal{A}_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
+Active submatrix $X_{A_{k-1}}$의 QR 분해를 사용하여 변수를 추가하는데, $A_{k-1}$에 아직 포함되지 않은 변수와 $X_{A_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
 
 
 ## Implementation via Julia
@@ -173,8 +173,8 @@ $$
 
 1. $\lambda = \lambda_k$로 설정하고, 초기값은 이전 단계의 해를 사용한다.
 2. 모든 $p$개의 변수에 대하여 한 번 (혹은 조금 더) coordinate descent를 수행한다.
-3. 변수 중 0이 아닌 계수를 가지는 변수를 active set $\mathcal{A}$로 저장한다.
-4. Active set $\mathcal{A}$에 속한 변수만으로 coordinate descent를 수행하고 해를 찾는다.
+3. 변수 중 0이 아닌 계수를 가지는 변수를 active set $A$로 저장한다.
+4. Active set $A$에 속한 변수만으로 coordinate descent를 수행하고 해를 찾는다.
 5. 해가 KKT 조건을 만족하는지 확인하기 위해 다음을 확인한다.
 
     $$
@@ -184,7 +184,7 @@ $$
     \end{align*}
     $$
     
-    만약 조건을 만족하지 않는 변수가 있다면, 그것을 $\mathcal{A}$에 추가하고 1~5번의 과정을 반복한다.
+    만약 조건을 만족하지 않는 변수가 있다면, 그것을 $A$에 추가하고 1~5번의 과정을 반복한다.
 
 
 ## Screening Rule
@@ -201,9 +201,9 @@ Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구�
 
 ## The Relaxed Lasso
 
-Lasso 추정량과 더불어 (simplified) relaxed lasso [(Meinshausen, 2007)](https://www.sciencedirect.com/science/article/pii/S0167947306004956?via%3Dihub) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$를 lasso 추정량이라고 하고, $\mathcal{A}_{\lambda}$를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $\mathcal{A}_{\lambda}$에 포함된 변수만 포함한 $X_{\mathcal{A}_{\lambda}}$를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}}$를 얻을 수 있다. $\mathcal{A}_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
+Lasso 추정량과 더불어 (simplified) relaxed lasso [(Meinshausen, 2007)](https://www.sciencedirect.com/science/article/pii/S0167947306004956?via%3Dihub) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$를 lasso 추정량이라고 하고, $A_{\lambda}$를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $A_{\lambda}$에 포함된 변수만 포함한 $X_{A_{\lambda}}$를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{A_{\lambda}}$를 얻을 수 있다. $A_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
 
-$$\hat \beta^{\text{lasso}} (\lambda) \longrightarrow \mathcal{A}_{\lambda} \longrightarrow \hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}} \overset{\text{padding}}{\longrightarrow} \hat \beta^{\text{LS}} (\lambda)$$
+$$\hat \beta^{\text{lasso}} (\lambda) \longrightarrow A_{\lambda} \longrightarrow \hat \beta^{\text{LS}}_{A_{\lambda}} \overset{\text{padding}}{\longrightarrow} \hat \beta^{\text{LS}} (\lambda)$$
 
 이렇게 얻은 최소제곱 추정량과 lasso 추정량을 weighted sum 한 것이 relaxed lasso 추정량이다.
 
