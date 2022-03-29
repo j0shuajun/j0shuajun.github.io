@@ -85,12 +85,14 @@ $$
 
 모든 가능한 모델을 탐색하는 best subset selection에 비해 덜 ambitious한 방법이 **forward stepwise selection**이다. Best subset selection이 computationally infeasible하기 때문에 제시된 대안이라고 생각할 수도 있다. 과정은 다음과 같다.
 
-1. 아무 변수도 포함되지 않은 empty model에서 시작한다. 즉, $\mathcal{A}_0 = \{ 0 \}$. (0은 절편항을 의미한다.)
-2. $k = 1, \dots, \min \{n, p\}$ 번째 단계마다 가장 적합한 변수를 하나씩 추가한다. 여기서 적합하다는 것은 변수를 추가하였을 때 반응변수 $Y$와 상관관계가 가장 높은 것을 의미한다.
+1. 아무 변수도 포함되지 않은 empty model에서 시작한다. 즉, $\mathcal{A}_0 = \{0\}$. (0은 절편항을 의미한다.)
+2. $k = 1, \dots, \min \{n,p\}$번째 단계마다 가장 적합한 변수를 하나씩 추가한다. 
 
 $$j_k = \underset{j \notin \mathcal{A}_{k-1}}{\text{argmin}} ~\Vert Y - P_{\mathcal{A}_{k-1} \cup \{ j_k \}} Y \Vert_2^2 \quad \text{and} \quad \mathcal{A}_k = \mathcal{A}_{k-1} \cup \{ j_k \}$$
 
-Active submatrix $X_{\mathcal{A}_{k-1}}$ 의 QR 분해를 사용하여 변수를 추가하는데, $\mathcal{A}_{k-1}$에 아직 포함되지 않은 변수와 $X_{\mathcal{A}_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
+    여기서 적합하다는 것은 변수를 추가하였을 때 반응변수 $Y$와 상관관계가 가장 높은 것을 의미한다.
+
+Active submatrix $X_{\mathcal{A}_{k-1}}$의 QR 분해를 사용하여 변수를 추가하는데, $\mathcal{A}_{k-1}$에 아직 포함되지 않은 변수와 $X_{\mathcal{A}_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
 
 
 ## Implementation via Julia
@@ -199,7 +201,7 @@ Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구�
 
 ## The Relaxed Lasso
 
-Lasso 추정량과 더불어 (simplified) relaxed lasso (Meinshausen, 2007) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$ 를 lasso 추정량이라고 하고, $\mathcal{A}_{\lambda}$ 를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $\mathcal{A}_{\lambda}$에 포함된 변수만 포함한 $X_{\mathcal{A}_{\lambda}}$ 를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}}$ 를 얻을 수 있다. $\mathcal{A}_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
+Lasso 추정량과 더불어 (simplified) relaxed lasso (Meinshausen, 2007) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$를 lasso 추정량이라고 하고, $\mathcal{A}_{\lambda}$를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $\mathcal{A}_{\lambda}$에 포함된 변수만 포함한 $X_{\mathcal{A}_{\lambda}}$를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}}$를 얻을 수 있다. $\mathcal{A}_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
 
 $$\hat \beta^{\text{lasso}} (\lambda) \longrightarrow \mathcal{A}_{\lambda} \longrightarrow \hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}} \overset{\text{padding}}{\longrightarrow} \hat \beta^{\text{LS}} (\lambda)$$
 
