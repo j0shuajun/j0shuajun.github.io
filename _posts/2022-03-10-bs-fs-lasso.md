@@ -32,11 +32,11 @@ Trevor Hastie, Robert Tibshirani, Ryan Tibshirani가 2020년에 저술한 [*Best
 
 $$\underset{\beta \in \mathbb{R}^p}{\text{minimize}} ~ \Vert Y - X \beta \Vert_2^2 \quad \text{subject to} \quad \Vert \beta \Vert_0 \le k$$
 
-여기서 $\ell_0$ norm인 $\Vert \beta \Vert_0 = \sum_{i=1}^p 1\{\beta_i \neq 0\}$은 0이 아닌 계수의 개수를 의미하며, 이는 곧 선택된 변수의 개수와 동일하다. 좀 더 자세히 살펴보면, $k$개 이하의 변수를 가지는 모델 중에서 잔차 제곱합을 최소로 하는 $\beta$를 찾고자 하는 것이다.
+여기서 $\ell_0$ norm인 $\Vert \beta \Vert_0 = \sum_{i=1}^p 1(\beta_i \neq 0)$은 0이 아닌 계수의 개수를 의미하며, 이는 곧 선택된 변수의 개수와 동일하다. 좀 더 자세히 살펴보면, $k$개 이하의 변수를 가지는 모델 중에서 잔차 제곱합을 최소로 하는 $\beta$를 찾고자 하는 것이다.
 
-변수 선택 방법 중에서 가장 간단한 아이디어인 만큼, 많이 사용할 것 같지만 그렇지 않다. 위의 예시처럼 변수의 개수가 적다면 문제가 되지 않지만, $p$가 커질수록 계산량이 지수적으로 늘어난다. $2^p$가지 모델을 전부 계산하고 잔차 제곱합까지 계산해야 하므로 현실적으로 $p$가 조금만 커져도 현실적으로 계산이 불가능하고 (computationally infeasible), NP hard라고 알려져 있다. 또한, 문제 자체가 nonconvex이기 때문에 어려운 문제이기도 하다.
+변수 선택 방법 중에서 가장 간단한 아이디어인 만큼, 많이 사용할 것 같지만 그렇지 않다. 위의 예시처럼 변수의 개수가 적다면 문제가 되지 않지만, $p$가 커질수록 계산량이 지수적으로 늘어난다. $2^p$가지 모델을 전부 계산하고 잔차 제곱합까지 계산해야 하므로 현실적으로 $p$가 조금만 커져도 현실적으로 계산이 불가능하고 (computationally infeasible), NP hard라고 알려져 있다. 또한, 문제 자체가 non-convex이기 때문에 어려운 문제이기도 하다.
 
-Best subset selection을 계산 가능한 영역으로 가져오려는 시도는 지속적으로 있었다. Bertsimas, King, Mazumder는 2016년 Mixed Integer Optimization (MIO) 방법을 적용한 계산 방법을 제안하였다. 저자들은 해당 방법을 통해 $n$이 천 단위, $p$가 백 단위 혹은 $n$이 백 단위, $p$가 천 단위일 때의 해를 찾았다고 한다.
+Best subset selection을 계산 가능한 영역으로 가져오려는 시도는 지속적으로 있었다. Bertsimas, King, Mazumder는 2016년 Mixed Integer Optimization (MIO) 방법을 적용한 계산 방법을 제안하였다. 저자들은 해당 방법을 통해 $n$이 천 단위, $p$가 백 단위 혹은 $n$이 백 단위, $p$가 천 단위일 때의 해를 feasible하게 찾을 수 있었다고 한다.
 
 
 ## MIO Formulations for the Best Subset Problem
@@ -78,12 +78,24 @@ $$
 
 ## Implementation via Julia
 
-{% gist j0shuajun/82fbab998293967016fa9ab274ec0855 %}
+{% gist j0shuajun/38f70e692d1226289c388b772af6205f %}
 
 
 # Forward Stepwise Selection
 
-작성 예정.
+모든 가능한 모델을 탐색하는 best subset selection에 비해 덜 ambitious한 방법이 **forward stepwise selection**이다. Best subset selection이 computationally infeasible하기 때문에 제시된 대안이라고 생각할 수도 있다. 과정은 다음과 같다.
+
+1. 아무 변수도 포함되지 않은 empty model에서 시작한다. 즉, $\mathcal{A}_0 = \{ 0 \}$. (0은 절편항을 의미한다.)
+2. $k = 1, \dots, \min \{n, p\}$ 번째 단계마다 가장 적합한 변수를 하나씩 추가한다. 여기서 적합하다는 것은 변수를 추가하였을 때 반응변수 $Y$와 상관관계가 가장 높은 것을 의미한다.
+
+$$j_k = \underset{j \notin \mathcal{A}_{k-1}}{\text{argmin}} ~\Vert Y - P_{\mathcal{A}_{k-1} \cup \{ j_k \}} Y \Vert_2^2 \quad \text{and} \quad \mathcal{A}_k = \mathcal{A}_{k-1} \cup \{ j_k \}$$
+
+Active submatrix $X_{\mathcal{A}_{k-1}}$ 의 QR 분해를 사용하여 변수를 추가하는데, $\mathcal{A}_{k-1}$에 아직 포함되지 않은 변수와 $X_{\mathcal{A}_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
+
+
+## Implementation via Julia
+
+{% gist j0shuajun/97366d74c97e06bdf472c3599cd8a392 %}
 
 
 # The Lasso
@@ -182,9 +194,17 @@ Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 
 
 Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구하는 것이 논문 구현에 사용된 코드이지만, 너무 길고 복잡해서 coordinate descent 부분만 보여주고자 한다. Coordinate descent를 이용하여 lasso 문제의 해를 구하는 과정을 Julia를 통해 작성한 코드이다.
 
-{% gist j0shuajun/38f70e692d1226289c388b772af6205f %}
+{% gist j0shuajun/82fbab998293967016fa9ab274ec0855 %}
 
 
 ## The Relaxed Lasso
 
-작성 예정.
+Lasso 추정량과 더불어 (simplified) relaxed lasso (Meinshausen, 2007) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$ 를 lasso 추정량이라고 하고, $\mathcal{A}_{\lambda}$ 를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $\mathcal{A}_{\lambda}$에 포함된 변수만 포함한 $X_{\mathcal{A}_{\lambda}}$ 를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}}$ 를 얻을 수 있다. $\mathcal{A}_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
+
+$$\hat \beta^{\text{lasso}} (\lambda) \longrightarrow \mathcal{A}_{\lambda} \longrightarrow \hat \beta^{\text{LS}}_{\mathcal{A}_{\lambda}} \overset{\text{padding}}{\longrightarrow} \hat \beta^{\text{LS}} (\lambda)$$
+
+이렇게 얻은 최소제곱 추정량과 lasso 추정량을 weighted sum 한 것이 relaxed lasso 추정량이다.
+
+$$\hat \beta^{\text{relax}} (\lambda, \gamma) = \gamma \hat \beta^{\text{lasso}} (\lambda) + (1 - \gamma) \hat \beta^{\text{LS}} (\lambda)$$
+
+$\lambda$는 기존의 hyperparameter 이며, $\gamma$는 0과 1사이의 값이다. Relaxed lasso 추정량을 구할 때에는 $\lambda$와 $\gamma$를 각각 바꾸어가며 해를 찾는다.
