@@ -201,7 +201,7 @@ Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구�
 
 ## The Relaxed Lasso
 
-Lasso 추정량과 더불어 (simplified) relaxed lasso [(Meinshausen, 2007)](https://www.sciencedirect.com/science/article/pii/S0167947306004956?via%3Dihub) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$를 lasso 추정량이라고 하고, $A_{\lambda}$를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $A_{\lambda}$에 포함된 변수만 포함한 $X_{A_{\lambda}}$를 design matrix로 하여 최소제곱 추정량 $\hat \beta^{\text{LS}}_{A_{\lambda}}$를 얻을 수 있다. $A_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
+Lasso 추정량과 더불어 (simplified) relaxed lasso [(Meinshausen, 2007)](https://www.sciencedirect.com/science/article/pii/S0167947306004956?via%3Dihub) 를 고려하였다. $\hat \beta^{\text{lasso}} (\lambda)$를 lasso 추정량이라고 하고, $A_{\lambda}$를 $\hat \beta^{\text{lasso}} (\lambda)$의 active set 이라고 하자. 그러면 $A_{\lambda}$에 포함된 변수만 포함한 $X_{A_{\lambda}}$를 design matrix로 하여 최소제곱 추정량 $\hat \beta_{A_{\lambda}}^{\text{LS}}$를 얻을 수 있다. $A_{\lambda}$에 포함되지 않았던 변수들의 계수를 0으로 하면 full-sized (p-dimensional) 최소제곱 추정량 $\hat \beta^{\text{LS}} (\lambda)$ 을 얻는다.
 
 $$\hat \beta^{\text{lasso}} (\lambda) \longrightarrow A_{\lambda} \longrightarrow \hat \beta^{\text{LS}}_{A_{\lambda}} \overset{\text{padding}}{\longrightarrow} \hat \beta^{\text{LS}} (\lambda)$$
 
