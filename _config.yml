@@ -56,8 +56,8 @@ tag_page: '/blog/tags/'
 category_page: '/blog/categories/'
 
 hero:
-  image: /public/img/main.png
-  caption: © Original Artwork <a href="https://www.instagram.com/p/CLUr3bNnqeD/?utm_medium=share_sheet">2soom_toon</a>
+  image: /public/img/sunrise_monet.jpg
+  caption: Original Artwork © Claude Monet. Sunrise, 1872. Oil on canvas.
 
 
 # Plugins
