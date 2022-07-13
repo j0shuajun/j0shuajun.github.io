@@ -92,3 +92,4 @@ Visual Studio, IntelliJ 등 많은 IDE들은 git과 연동하여 관리할 수 �
 
 1. [Git 뉴비를 위한 기초 사용법 - 시작하기](https://evan-moon.github.io/2019/07/25/git-tutorial/)
 2. [어떻게 깃을 사용하는지 빠르게 알아봅시다](https://github.com/KennethanCeyer/tutorial-git)
+3. [How to use Git?](/public/files/20220304_git.pdf)
