@@ -1,0 +1,66 @@
+# Site Info
+title: Records in June
+tagline: 'useful clutter'
+description: 'I Hope my works will help someone.'
+baseurl: ''
+url: http://j0shuajun.github.io
+logo: '/public/logo.png'
+
+# Site configurations
+gems:
+  - jekyll-paginate
+  - jekyll-gist
+markdown: kramdown
+kramdown:
+  input: GFM
+excerpt_separator: "<!-- more -->"
+sass:
+  style: compressed
+  sass_dir: _scss    
+paginate: 5
+paginate_path: '/blog/page:num'
+permalink: pretty
+
+version: 1.0.0
+
+# About/contact
+author:
+  name: Myungjun Kim
+  description: Still Studying.
+  gravatar: 393e1ed24eb8d19ea9a22ff8650123ba
+  contact:
+    # linkedin:  https://www.linkedin.com/in/lizhihao
+    github:    https://github.com/j0shuajun
+    instagram: https://instagram.com/dd_june6
+    # facebook:  <hide>
+    # twitter:   https://twitter.com/Li_Zhihao
+    # weibo:     http://weibo.com/41173780
+    email:     mailto:kimmj1e34@gmail.com
+
+# Navigation (2nd level links supported)
+nav:
+  Home:           
+    - '/'
+  Blog:           
+    - '/blog/'
+    - { Categories: '/blog/categories/' }
+    - { Tags: '/blog/tags/' }
+  About:          
+    - '/about/'
+
+  #Github Project: 
+    #- 'http://j0shuajun.github.io/'
+
+# Where are tags and categories displayed
+tag_page: '/blog/tags/'
+category_page: '/blog/categories/'
+
+hero:
+  image: /public/img/sunrise_monet.jpg
+  caption: Original Artwork © Claude Monet. Sunrise, 1872. Oil on canvas.
+
+
+# Plugins
+mathjax: true # whether support mathjax
+google_analytics_token: '' # leave blank if you don't want google analytics
+disqus_short_name: '' # leave blank if you don't want disqus
