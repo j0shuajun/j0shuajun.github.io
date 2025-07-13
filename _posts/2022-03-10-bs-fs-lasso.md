@@ -76,11 +76,6 @@ $$
 위의 최적화 문제는 warmstart를 적용한 projected gradient 방법을 통해 해를 찾았으며, [Gurobi](https://www.gurobi.com)를 사용하였다.
 
 
-## Implementation via Julia
-
-{% gist j0shuajun/38f70e692d1226289c388b772af6205f %}
-
-
 # Forward Stepwise Selection
 
 모든 가능한 모델을 탐색하는 best subset selection에 비해 덜 ambitious한 방법이 **forward stepwise selection**이다. Best subset selection이 computationally infeasible하기 때문에 제시된 대안이라고 생각할 수도 있다. 과정은 다음과 같다.
@@ -93,11 +88,6 @@ $$
     여기서 적합하다는 것은 변수를 추가하였을 때 반응변수 $Y$와 상관관계가 가장 높은 것을 의미한다.
 
 Active submatrix $X_{A_{k-1}}$의 QR 분해를 사용하여 변수를 추가하는데, $A_{k-1}$에 아직 포함되지 않은 변수와 $X_{A_{k-1}}$가 직교하도록 만들어주는 과정을 반복하는 과정이 필요하다. 이 때, 계산상의 효율을 위해 modified Gram-Schmidt 방법을 사용한다.
-
-
-## Implementation via Julia
-
-{% gist j0shuajun/97366d74c97e06bdf472c3599cd8a392 %}
 
 
 # The Lasso
@@ -192,13 +182,6 @@ $$
 ## Screening Rule
 
 Screening rule은 active set strategy를 사용하기 전에 한 번 더 강한 가정을 부여해서 변수를 걸러내는 과정이다. 구체적인 내용은 Tibshirani가 2012년에 저술한 [*Strong Rules for Discarding Predictors in Lasso-type Problems*](https://www.jstor.org/stable/41430939)을 참고하길 바란다.
-
-
-## Implementation via Julia
-
-Active set strategy와 screening rule를 적용하고 pathwise하게 해를 구하는 것이 논문 구현에 사용된 코드이지만, 너무 길고 복잡해서 coordinate descent 부분만 보여주고자 한다. Coordinate descent를 이용하여 lasso 문제의 해를 구하는 과정을 Julia를 통해 작성한 코드이다.
-
-{% gist j0shuajun/82fbab998293967016fa9ab274ec0855 %}
 
 
 ## The Relaxed Lasso
