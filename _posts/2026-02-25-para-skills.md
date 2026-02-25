@@ -5,6 +5,10 @@ category : [Agent]
 tag: [PARA, Skill, Codex, Claude Code]
 ---
 
+Codex 또는 Claude Code Skill을 활용하여 수집한 정보들을 요약하고 정리하는 방법입니다.
+
+<!-- more -->
+
 # PARA Curate: 옵시디언 지식 관리 자동화 가이드
 
 이 시스템은 수집한 자료를 읽고 요약하여 PARA 구조의 적절한 위치로 분류하는 과정을 자동화합니다. 사용자는 자료를 특정 폴더에 넣기만 하면 되고, 이후의 모든 정리는 AI 에이전트가 수행합니다.
